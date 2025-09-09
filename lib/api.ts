@@ -142,8 +142,8 @@ export interface NewDevelopmentFilterParams {
   pageSize?: number
 }
 
-const API_BASE_URL = "http://localhost:3001"
-// const API_BASE_URL = "https://api.fresh-propertymanagement.com"
+// const API_BASE_URL = "http://localhost:3001"
+const API_BASE_URL = "https://api.fresh-propertymanagement.com"
 
 const MOCK_PROPERTIES: Property[] = [
   {
