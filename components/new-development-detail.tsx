@@ -375,7 +375,7 @@ export default function NewDevelopmentDetailContent({ id: developmentId, develop
                       <Building2 className="h-5 w-5 text-green-600" />
                     </div>
                     <div>
-                      <div className="font-bold text-gray-900 text-sm">NEW DEVELOPMENT</div>
+                      <div className="font-bold text-gray-900 text-sm">FRESH PROPERTIES</div>
                       <div className="text-xs text-gray-600">Premium Properties</div>
                     </div>
                   </div>

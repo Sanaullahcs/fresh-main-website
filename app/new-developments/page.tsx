@@ -37,6 +37,7 @@ export default function NewDevelopmentsPage() {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+  const [count, setCount] = useState(1)
   const [totalDevelopments, setTotalDevelopments] = useState(0)
   const [pageSize] = useState(12)
 
@@ -143,9 +144,10 @@ export default function NewDevelopmentsPage() {
 
       setDevelopments(response.properties || [])
 
+      const count = response.count || 0
       const totalCount = response.properties?.length || 0
       const calculatedPages = response.numPages || Math.ceil(totalCount / pageSize)
-
+      setCount(count)
       setTotalDevelopments(totalCount)
       setTotalPages(Math.max(1, calculatedPages))
       setCurrentPage(page)
@@ -492,9 +494,8 @@ export default function NewDevelopmentsPage() {
                           </div>
                           <button
                             onClick={() => selectOption("area", "")}
-                            className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${
-                              filters.area === "" ? "bg-green-500 text-white" : "text-gray-700"
-                            }`}
+                            className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${filters.area === "" ? "bg-green-500 text-white" : "text-gray-700"
+                              }`}
                           >
                             All Areas
                           </button>
@@ -502,9 +503,8 @@ export default function NewDevelopmentsPage() {
                             <button
                               key={area.name}
                               onClick={() => selectOption("area", area.name)}
-                              className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${
-                                filters.area === area.name ? "bg-green-500 text-white" : "text-gray-700"
-                              }`}
+                              className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${filters.area === area.name ? "bg-green-500 text-white" : "text-gray-700"
+                                }`}
                             >
                               {area.name}
                             </button>
@@ -542,9 +542,8 @@ export default function NewDevelopmentsPage() {
                               selectOption("location", "")
                               toggleDropdown("location") // close after select
                             }}
-                            className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${
-                              filters.location === "" ? "bg-green-500 text-white" : "text-gray-700"
-                            }`}
+                            className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${filters.location === "" ? "bg-green-500 text-white" : "text-gray-700"
+                              }`}
                           >
                             All Locations
                           </button>
@@ -557,9 +556,8 @@ export default function NewDevelopmentsPage() {
                                 selectOption("location", location)
                                 toggleDropdown("location") // close after select
                               }}
-                              className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${
-                                filters.location === location ? "bg-green-500 text-white" : "text-gray-700"
-                              }`}
+                              className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${filters.location === location ? "bg-green-500 text-white" : "text-gray-700"
+                                }`}
                             >
                               {location}
                             </button>
@@ -595,9 +593,8 @@ export default function NewDevelopmentsPage() {
                           <button
                             key={option}
                             onClick={() => selectOption("propertyType", option)}
-                            className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${
-                              filters.propertyType === option ? "bg-green-500 text-white" : "text-gray-700"
-                            }`}
+                            className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${filters.propertyType === option ? "bg-green-500 text-white" : "text-gray-700"
+                              }`}
                           >
                             {option === "" ? "Any Type" : option.charAt(0).toUpperCase() + option.slice(1)}
                           </button>
@@ -633,9 +630,8 @@ export default function NewDevelopmentsPage() {
                             <button
                               key={option}
                               onClick={() => selectOption("bedrooms", option)}
-                              className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${
-                                filters.bedrooms === option ? "bg-green-500 text-white" : "text-gray-700"
-                              }`}
+                              className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${filters.bedrooms === option ? "bg-green-500 text-white" : "text-gray-700"
+                                }`}
                             >
                               {option}
                             </button>
@@ -669,9 +665,8 @@ export default function NewDevelopmentsPage() {
                             <button
                               key={option}
                               onClick={() => selectOption("bathrooms", option)}
-                              className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${
-                                filters.bathrooms === option ? "bg-green-500 text-white" : "text-gray-700"
-                              }`}
+                              className={`w-full px-3 py-2 text-left hover:bg-green-50 transition-colors text-sm ${filters.bathrooms === option ? "bg-green-500 text-white" : "text-gray-700"
+                                }`}
                             >
                               {option}
                             </button>
@@ -776,12 +771,12 @@ export default function NewDevelopmentsPage() {
           <div className="flex justify-between items-center mb-8">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">
-                {loading ? "Loading..." : `${developments.length} New Developments`}
+                {loading ? "Loading..." : `${count} New Developments`}
               </h2>
               <p className="text-gray-600">
                 {loading
                   ? "Please wait..."
-                  : `Showing ${(currentPage - 1) * pageSize + 1}-${Math.min(currentPage * pageSize, developments.length)} of ${developments.length}`}
+                  : `Showing ${(currentPage - 1) * pageSize + 1}-${Math.min(currentPage * pageSize, developments.length)} of ${count}`}
               </p>
             </div>
           </div>
@@ -905,9 +900,8 @@ export default function NewDevelopmentsPage() {
                       variant={currentPage === pageNum ? "default" : "outline"}
                       size="sm"
                       onClick={() => handlePageChange(pageNum)}
-                      className={`min-w-[40px] ${
-                        currentPage === pageNum ? "bg-green-600 hover:bg-green-700 text-white" : "hover:bg-green-50"
-                      }`}
+                      className={`min-w-[40px] ${currentPage === pageNum ? "bg-green-600 hover:bg-green-700 text-white" : "hover:bg-green-50"
+                        }`}
                     >
                       {pageNum}
                     </Button>

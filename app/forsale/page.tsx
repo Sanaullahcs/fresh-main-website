@@ -942,14 +942,14 @@ export default function BuyPage() {
                     <div className="relative">
                       <ImageCarousel images={property.images || []} className="w-full h-64" />
                       <Badge className="absolute top-4 left-4 bg-green-600 text-white">{property.type}</Badge>
-                      <div className="absolute top-4 right-4 flex gap-2">
+                      {/* <div className="absolute top-4 right-4 flex gap-2">
                         <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/90 hover:bg-green-50">
                           <Heart className="h-4 w-4 text-gray-600" />
                         </Button>
                         <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-white/90 hover:bg-green-50">
                           <Share2 className="h-4 w-4 text-gray-600" />
                         </Button>
-                      </div>
+                      </div> */}
                     </div>
 
                     <CardContent className="p-6 pt-[165px]">

@@ -98,8 +98,8 @@ export default function ImageCarousel({ images, className = "" }: ImageCarouselP
   return (
     <div className={`relative group ${className}`}>
       {/* provide an explicit height so next/image can generate correctly-sized images */}
-  {/* Keep a consistent aspect ratio so the hero image doesn't stretch bizarrely */}
-  <div className="w-full h-full relative" style={{ minHeight: 300, maxHeight: 720 }}>
+      {/* Keep a consistent aspect ratio so the hero image doesn't stretch bizarrely */}
+      <div className="w-full h-full relative" style={{ minHeight: 300, maxHeight: 720 }}>
         <Image
           src={filteredImages[currentIndex]?.src}
           alt={filteredImages[currentIndex]?.alt || "Property image"}
@@ -111,12 +111,12 @@ export default function ImageCarousel({ images, className = "" }: ImageCarouselP
         />
       </div>
 
-  {filteredImages.length > 1 && (
+      {filteredImages.length > 1 && (
         <>
           <Button
             size="sm"
             variant="secondary"
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute left-2 top-1/2 transform  h-8 w-8 p-0 bg-[#35934B] hover:bg-[#35934B] opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={goToPrevious}
           >
             <ChevronLeft className="h-4 w-4" />
@@ -125,13 +125,13 @@ export default function ImageCarousel({ images, className = "" }: ImageCarouselP
           <Button
             size="sm"
             variant="secondary"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 bg-white/90 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute right-2 top-1/2 transform  h-8 w-8 p-0 bg-[#35934B] hover:bg-[#35934B] opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={goToNext}
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
 
-          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+          {/* <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
             {filteredImages.map((_, index) => (
               <button
                 key={index}
@@ -141,7 +141,7 @@ export default function ImageCarousel({ images, className = "" }: ImageCarouselP
                 onClick={() => setCurrentIndex(index)}
               />
             ))}
-          </div>
+          </div> */}
 
           <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
             {currentIndex + 1} / {filteredImages.length}
@@ -150,15 +150,14 @@ export default function ImageCarousel({ images, className = "" }: ImageCarouselP
       )}
 
       {/* Thumbnail strip below the main image for quick navigation */}
-  {filteredImages.length > 1 && (
+      {filteredImages.length > 1 && (
         <div className="mt-3 flex items-center gap-2 overflow-x-auto px-1">
           {filteredImages.map((img, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`flex-shrink-0 rounded overflow-hidden border-2 transition-all duration-150 ${
-                idx === currentIndex ? "border-green-600 scale-105" : "border-transparent"
-              }`}
+              className={`flex-shrink-0 rounded overflow-hidden border-2 transition-all duration-150 ${idx === currentIndex ? "border-green-600 scale-105" : "border-transparent"
+                }`}
               style={{ width: 96, height: 64 }}
               aria-label={`View image ${idx + 1}`}
             >
