@@ -342,14 +342,22 @@ export default function PropertyDetails() {
                   </p>
 
                   <div className="space-y-3">
-                    <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 font-medium text-sm">
+                       <a
+                      href="tel:+34744749203"
+                      className="w-full inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white py-2 font-medium text-sm rounded-md"
+                    >
                       <Phone className="h-4 w-4 mr-2" />
                       CALL NOW
-                    </Button>
-                    <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 font-medium text-sm">
+                    </a>
+                    <a
+                      href="https://wa.me/31623700433"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white py-2 font-medium text-sm rounded-md"
+                    >
                       <MessageCircle className="h-4 w-4 mr-2" />
                       WHATSAPP
-                    </Button>
+                    </a>
                   </div>
                 </CardContent>
               </Card>
