@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
 import {
   Search,
   MapPin,
@@ -19,9 +20,9 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 // import { fetchProperties } from "@/lib/utils"
-// import the pages you want to render
-import ForsalePage from "@/app/forsale/page";
-import NewDevelopmentsPage from "@/app/new-developments/page";
+// import the pages you want to render (load client-only to avoid SSR localStorage access)
+const ForsalePage = dynamic(() => import("@/app/forsale/page"), { ssr: false })
+const NewDevelopmentsPage = dynamic(() => import("@/app/new-developments/page"), { ssr: false })
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Navigation from "@/components/navigation"

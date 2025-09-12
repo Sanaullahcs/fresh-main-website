@@ -89,19 +89,30 @@ export default function NewDevelopmentsPage() {
   //   balcony: false,
   //   storage: false,
   // })
-   const [filters, setFilters] = useState(() => {
-      const saved = localStorage.getItem("filters");
-      return saved ? JSON.parse(saved) : defaultFilters;
-    });
+  // SSR-safe: initialize with defaultFilters, hydrate from localStorage on client
+  const [filters, setFilters] = useState(defaultFilters);
 
-     useEffect(() => {
-        localStorage.setItem("filters", JSON.stringify(filters));
-      }, [filters]);
-    
-       const clearFilters = () => {
-        setFilters(defaultFilters);
-        localStorage.removeItem("filters");
-      };
+  // Hydrate filters from localStorage on client only
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("filters");
+      if (saved) setFilters(JSON.parse(saved));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("filters", JSON.stringify(filters));
+    }
+  }, [filters]);
+
+  const clearFilters = () => {
+    setFilters(defaultFilters);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("filters");
+    }
+  };
 
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [dropdownStates, setDropdownStates] = useState<Record<string, boolean>>({})

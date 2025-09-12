@@ -92,17 +92,28 @@ export default function BuyPage() {
   //   balcony: false,
   //   storage: false,
   // })
-  const [filters, setFilters] = useState(() => {
-    const saved = localStorage.getItem("filters");
-    return saved ? JSON.parse(saved) : defaultFilters;
-  });
+  // SSR-safe filters: initialize with defaults and hydrate from localStorage on client
+  const [filters, setFilters] = useState(defaultFilters);
+
   useEffect(() => {
-    localStorage.setItem("filters", JSON.stringify(filters));
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("filters");
+      if (saved) setFilters(JSON.parse(saved));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("filters", JSON.stringify(filters));
+    }
   }, [filters]);
 
-   const clearFilters = () => {
+  const clearFilters = () => {
     setFilters(defaultFilters);
-    localStorage.removeItem("filters");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("filters");
+    }
   };
 
   const [isClient, setIsClient] = useState(false)
