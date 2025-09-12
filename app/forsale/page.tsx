@@ -30,7 +30,29 @@ interface Area {
   name: string
   pueblos: string[]
 }
-
+const defaultFilters = {
+  priceRange: "",
+  bedrooms: "",
+  bathrooms: "",
+  location: "",
+  area: "",
+  propertyType: "",
+  minPrice: 0,
+  maxPrice: 10000000,
+  has_pool: false,
+  has_garden: false,
+  own_property: false,
+  garage: false,
+  seaView: false,
+  airConditioning: false,
+  terrace: false,
+  furnished: false,
+  parking: false,
+  elevator: false,
+  fireplace: false,
+  balcony: false,
+  storage: false,
+};
 export default function BuyPage() {
   const router = useRouter()
   const [selectedFilter, setSelectedFilter] = useState("all")
@@ -47,29 +69,41 @@ export default function BuyPage() {
   const [pageSize] = useState(20)
   const [areas, setAreas] = useState<Area[]>([])
   const [availableLocations, setAvailableLocations] = useState<string[]>([])
-  const [filters, setFilters] = useState({
-    priceRange: "",
-    bedrooms: "",
-    bathrooms: "",
-    location: "",
-    area: "",
-    propertyType: "",
-    minPrice: 0,
-    maxPrice: 10000000,
-    has_pool: false,
-    has_garden: false,
-    own_property: false,
-    garage: false,
-    seaView: false,
-    airConditioning: false,
-    terrace: false,
-    furnished: false,
-    parking: false,
-    elevator: false,
-    fireplace: false,
-    balcony: false,
-    storage: false,
-  })
+  // const [filters, setFilters] = useState({
+  //   priceRange: "",
+  //   bedrooms: "",
+  //   bathrooms: "",
+  //   location: "",
+  //   area: "",
+  //   propertyType: "",
+  //   minPrice: 0,
+  //   maxPrice: 10000000,
+  //   has_pool: false,
+  //   has_garden: false,
+  //   own_property: false,
+  //   garage: false,
+  //   seaView: false,
+  //   airConditioning: false,
+  //   terrace: false,
+  //   furnished: false,
+  //   parking: false,
+  //   elevator: false,
+  //   fireplace: false,
+  //   balcony: false,
+  //   storage: false,
+  // })
+  const [filters, setFilters] = useState(() => {
+    const saved = localStorage.getItem("filters");
+    return saved ? JSON.parse(saved) : defaultFilters;
+  });
+  useEffect(() => {
+    localStorage.setItem("filters", JSON.stringify(filters));
+  }, [filters]);
+
+   const clearFilters = () => {
+    setFilters(defaultFilters);
+    localStorage.removeItem("filters");
+  };
 
   const [isClient, setIsClient] = useState(false)
   const propertiesSectionRef = useRef<HTMLDivElement>(null)
@@ -78,7 +112,7 @@ export default function BuyPage() {
     console.log("fetching ")
   }, [])
   const loadProperties = async (page: number = currentPage) => {
-    setLoading(true)  
+    setLoading(true)
     setError(null)
     console.log("fetching in func ")
     try {
@@ -164,7 +198,7 @@ export default function BuyPage() {
       const selectedArea = areas.find((area) => area.name === filters.area)
       setAvailableLocations(selectedArea?.pueblos || [])
       // Clear selected locations when area changes
-      setFilters((prev) => ({ ...prev, location: "" }))
+      // setFilters((prev) => ({ ...prev, location: "" }))
     } else {
       setAvailableLocations([])
     }
@@ -348,38 +382,38 @@ export default function BuyPage() {
     }))
   }
 
-  const clearFilters = () => {
-    setFilters({
-      priceRange: "",
-      bedrooms: "",
-      bathrooms: "",
-      location: "",
-      area: "",
-      propertyType: "",
-      minPrice: 0,
-      maxPrice: 10000000,
-      has_pool: false,
-      has_garden: false,
-      own_property: false,
-      garage: false,
-      seaView: false,
-      airConditioning: false,
-      terrace: false,
-      furnished: false,
-      parking: false,
-      elevator: false,
-      fireplace: false,
-      balcony: false,
-      storage: false,
-    })
-    setCustomInputs({
-      location: "",
-      area: "",
-      propertyType: "",
-      bedrooms: "",
-      bathrooms: "",
-    })
-  }
+  // const clearFilters = () => {
+  //   setFilters({
+  //     priceRange: "",
+  //     bedrooms: "",
+  //     bathrooms: "",
+  //     location: "",
+  //     area: "",
+  //     propertyType: "",
+  //     minPrice: 0,
+  //     maxPrice: 10000000,
+  //     has_pool: false,
+  //     has_garden: false,
+  //     own_property: false,
+  //     garage: false,
+  //     seaView: false,
+  //     airConditioning: false,
+  //     terrace: false,
+  //     furnished: false,
+  //     parking: false,
+  //     elevator: false,
+  //     fireplace: false,
+  //     balcony: false,
+  //     storage: false,
+  //   })
+  //   setCustomInputs({
+  //     location: "",
+  //     area: "",
+  //     propertyType: "",
+  //     bedrooms: "",
+  //     bathrooms: "",
+  //   })
+  // }
 
   const clearIndividualFilter = (filterType: string) => {
     setFilters((prev) => ({
@@ -539,7 +573,7 @@ export default function BuyPage() {
       </section> */}
 
       {/* Filters Section with light green background */}
-        <section className="bg-green-50 py-6 border-b border-green-100">
+      <section className="bg-green-50 py-6 border-b border-green-100">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between max-w-6xl mx-auto">
             {/* Search - increased width */}

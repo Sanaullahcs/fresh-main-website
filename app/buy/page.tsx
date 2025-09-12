@@ -113,7 +113,7 @@ export default function BuyPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [showFilterModal, setShowFilterModal] = useState(false)
 
-  
+
 
   const [filters, setFilters] = useState({
     priceRange: "",
@@ -160,7 +160,16 @@ export default function BuyPage() {
     area: "",
     propertyType: "",
   })
-
+  useEffect(() => {
+    const savedFilter = localStorage.getItem("tabName");
+    if (savedFilter) {
+      setSelectedFilter(savedFilter);
+    }
+  }, []);
+  const handleFilterChange = (filter) => {
+    setSelectedFilter(filter);
+    localStorage.setItem("tabName", filter);
+  };
   const priceRanges = [
     { value: "0-500k", label: "€0 - €500,000" },
     { value: "500k-1m", label: "€500,000 - €1,000,000" },
@@ -507,7 +516,7 @@ export default function BuyPage() {
             </div>
 
             {/* Filter Categories */}
-            <div className="flex flex-wrap gap-2 lg:gap-3">
+            {/* <div className="flex flex-wrap gap-2 lg:gap-3">
               {["existing", "new"].map((filter) => (
                 <button
                   key={filter}
@@ -518,6 +527,20 @@ export default function BuyPage() {
                     }`}
                 >
                   {filter === "all" ? "All" : filter === "existing" ? "Existing Homes" : "New Homes"}
+                </button>
+              ))}
+            </div> */}
+            <div className="flex flex-wrap gap-2 lg:gap-3">
+              {["existing", "new"].map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => handleFilterChange(filter)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${selectedFilter === filter
+                    ? "bg-green-600 text-white shadow-md"
+                    : "bg-white text-gray-700 hover:bg-green-50 border border-gray-300"
+                    }`}
+                >
+                  {filter === "existing" ? "Existing Homes" : "New Homes"}
                 </button>
               ))}
             </div>

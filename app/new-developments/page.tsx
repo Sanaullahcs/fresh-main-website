@@ -27,6 +27,29 @@ import Footer from "@/components/footer"
 import ImageCarousel from "@/components/image-carousel"
 import { fetchNewDevelopments, fetchAreas, type NewDevelopment, type NewDevelopmentFilterParams } from "@/lib/api"
 
+const defaultFilters = {
+  priceRange: "",
+  bedrooms: "",
+  bathrooms: "",
+  location: "",
+  area: "",
+  propertyType: "",
+  minPrice: 0,
+  maxPrice: 10000000,
+  pool: false,
+  garden: false,
+  garage: false,
+  seaView: false,
+  airConditioning: false,
+  terrace: false,
+  furnished: false,
+  parking: false,
+  elevator: false,
+  fireplace: false,
+  balcony: false,
+  storage: false,
+};
+
 export default function NewDevelopmentsPage() {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("")
@@ -44,28 +67,41 @@ export default function NewDevelopmentsPage() {
   const [isClient, setIsClient] = useState(false)
   const developmentsSectionRef = useRef<HTMLDivElement>(null)
 
-  const [filters, setFilters] = useState({
-    priceRange: "",
-    bedrooms: "",
-    bathrooms: "",
-    location: "",
-    area: "",
-    propertyType: "",
-    minPrice: 0,
-    maxPrice: 10000000,
-    pool: false,
-    garden: false,
-    garage: false,
-    seaView: false,
-    airConditioning: false,
-    terrace: false,
-    furnished: false,
-    parking: false,
-    elevator: false,
-    fireplace: false,
-    balcony: false,
-    storage: false,
-  })
+  // const [filters, setFilters] = useState({
+  //   priceRange: "",
+  //   bedrooms: "",
+  //   bathrooms: "",
+  //   location: "",
+  //   area: "",
+  //   propertyType: "",
+  //   minPrice: 0,
+  //   maxPrice: 10000000,
+  //   pool: false,
+  //   garden: false,
+  //   garage: false,
+  //   seaView: false,
+  //   airConditioning: false,
+  //   terrace: false,
+  //   furnished: false,
+  //   parking: false,
+  //   elevator: false,
+  //   fireplace: false,
+  //   balcony: false,
+  //   storage: false,
+  // })
+   const [filters, setFilters] = useState(() => {
+      const saved = localStorage.getItem("filters");
+      return saved ? JSON.parse(saved) : defaultFilters;
+    });
+
+     useEffect(() => {
+        localStorage.setItem("filters", JSON.stringify(filters));
+      }, [filters]);
+    
+       const clearFilters = () => {
+        setFilters(defaultFilters);
+        localStorage.removeItem("filters");
+      };
 
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [dropdownStates, setDropdownStates] = useState<Record<string, boolean>>({})
@@ -243,31 +279,31 @@ export default function NewDevelopmentsPage() {
     }))
   }
 
-  const clearFilters = () => {
-    setFilters({
-      priceRange: "",
-      bedrooms: "",
-      bathrooms: "",
-      location: [],
-      area: "",
-      propertyType: "",
-      minPrice: 0,
-      maxPrice: 10000000,
-      pool: false,
-      garden: false,
-      garage: false,
-      seaView: false,
-      airConditioning: false,
-      terrace: false,
-      furnished: false,
-      parking: false,
-      elevator: false,
-      fireplace: false,
-      balcony: false,
-      storage: false,
-    })
-    setSearchTerm("")
-  }
+  // const clearFilters = () => {
+  //   setFilters({
+  //     priceRange: "",
+  //     bedrooms: "",
+  //     bathrooms: "",
+  //     location: [],
+  //     area: "",
+  //     propertyType: "",
+  //     minPrice: 0,
+  //     maxPrice: 10000000,
+  //     pool: false,
+  //     garden: false,
+  //     garage: false,
+  //     seaView: false,
+  //     airConditioning: false,
+  //     terrace: false,
+  //     furnished: false,
+  //     parking: false,
+  //     elevator: false,
+  //     fireplace: false,
+  //     balcony: false,
+  //     storage: false,
+  //   })
+  //   setSearchTerm("")
+  // }
 
   const hasActiveFilters = () => {
     return (
